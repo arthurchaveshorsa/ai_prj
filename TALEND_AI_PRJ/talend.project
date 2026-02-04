@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:TalendProperties="http://www.talend.org/properties">
+  <TalendProperties:Project xmi:id="_wGeSoQHOEfGnu-clOICnTg" label="Talend_AI_Prj" description="" language="java" technicalLabel="TALEND_AI_PRJ" author="_wGeSogHOEfGnu-clOICnTg" productVersion="Qlik Talend Cloud Enterprise Edition-8.0.1.20251022_1713-patch" url="{&quot;commitLogPattern&quot;:&quot;{0}&quot;,&quot;location&quot;:&quot;https://github.com/arthurchaveshorsa/ai_prj.git&quot;,&quot;settings&quot;:&quot;000&quot;,&quot;storage&quot;:&quot;git&quot;}" type="DQ" itemsRelationVersion="1.3" bigData="false">
+    <migrationTask xmi:id="_wH1kkAHOEfGnu-clOICnTg" id="org.talend.repository.model.migration.CheckProductVersionMigrationTask" breaks="7.1.0" version="7.1.1"/>
+  </TalendProperties:Project>
+  <TalendProperties:User xmi:id="_wGeSogHOEfGnu-clOICnTg" login="arthur.chaves@horsainsights.r.l." firstName="Arthur" lastName="Chaves" type="DQ"/>
+</xmi:XMI>
