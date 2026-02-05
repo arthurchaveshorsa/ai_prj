@@ -26,6 +26,17 @@
   } ]
 }, {
   "baseItem" : {
+    "id" : "_aFiVkAHPEfGnu-clOICnTg",
+    "version" : "0.1",
+    "type" : "job"
+  },
+  "relatedItems" : [ {
+    "id" : "_VGrukAHSEfGnu-clOICnTg",
+    "version" : "Latest",
+    "type" : "property"
+  } ]
+}, {
+  "baseItem" : {
     "id" : "_d3p8UAHPEfGnu-clOICnTg",
     "version" : "0.1",
     "type" : "job"
