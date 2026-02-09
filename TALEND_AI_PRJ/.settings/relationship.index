@@ -52,6 +52,17 @@
   } ]
 }, {
   "baseItem" : {
+    "id" : "_e0_HQAHPEfGnu-clOICnTg",
+    "version" : "0.1",
+    "type" : "job"
+  },
+  "relatedItems" : [ {
+    "id" : "TALEND_AI_PRJ:_aFiVkAHPEfGnu-clOICnTg",
+    "version" : "Latest",
+    "type" : "job"
+  } ]
+}, {
+  "baseItem" : {
     "id" : "_o5JycAKhEfG8Q4R2S8vrtQ",
     "version" : "0.1",
     "type" : "job"
