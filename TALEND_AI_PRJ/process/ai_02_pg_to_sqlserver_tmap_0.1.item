@@ -102,20 +102,24 @@
   <node componentName="tPrejob" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="120" posY="80">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPrejob_1" show="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="MEMO" name="COMMENT" value="Questo componente viene eseguito prima dell'inizio del flusso principale.&#xA;In questa pipeline, vengono stabilite due connessioni ai database. Una connessione al database PostgreSQL sorgente per leggere le tabelle.&#xA; Una connessione al database di destinazione per scrivere i dati elaborati, con la flag Auto Commit attiva.&#xA; Entrambe le connessioni sono predefinite nel repository e già collegate al job. Questo componente serve anche per verificare che entrambe le connessioni siano attive e pronte per l’esecuzione."/>
   </node>
   <node componentName="tPostjob" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="120" posY="400">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostjob_1" show="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="MEMO" name="COMMENT" value="Questo componente viene eseguito dopo il completamento del flusso principale.&#xA;Serve per chiudere tutte le connessioni ai database utilizzate dal job e rilasciare correttamente le risorse.&#xA;Garantisce che non rimangano connessioni aperte e previene eventuali blocchi sui database sorgente e destinazione."/>
   </node>
   <node componentName="tPostgresqlClose" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="320" posY="400">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tDBClose_1" show="false"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tDBConnection_1"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="MEMO" name="COMMENT" value="Questo componente chiude la connessione al database PostgreSQL sorgente utilizzata per leggere le tabelle.&#xA;Garantisce il rilascio corretto delle risorse e previene eventuali problemi di connessioni aperte sul database sorgente."/>
   </node>
   <node componentName="tMysqlClose" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="480" posY="400">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tDBClose_2" show="false"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tDBConnection_2"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="MEMO" name="COMMENT" value="Questo componente chiude la connessione al database di destinazione utilizzata per scrivere i dati.&#xA;Garantisce il rilascio corretto delle risorse e previene eventuali blocchi o errori di commit sul database destinazione."/>
   </node>
   <node componentName="tPostgresqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="280" posY="240">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tDBInput_1" show="false"/>
@@ -177,6 +181,7 @@
     </elementParameter>
     <elementParameter field="TEXT" name="LABEL" value="ORDERS"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="MEMO" name="COMMENT" value="Questo componente legge la prima tabella dal database PostgreSQL sorgente utilizzando la connessione definita.&#xA;Estrae tutte le colonne necessarie per l’elaborazione e le invia al flusso principale del job.&#xA;I dati vengono preparati per il join o la trasformazione successiva nel tMap."/>
     <metadata connector="FLOW" name="tDBInput_1">
       <column comment="" defaultValue="" key="false" length="5" name="order_id" nullable="false" pattern="" precision="0" sourceType="INT2" type="id_Short" originalLength="-1" usefulColumn="true"/>
       <column comment="" key="false" length="5" name="customer_id" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" originalLength="-1" usefulColumn="true"/>
@@ -208,6 +213,7 @@
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
     <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="true"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="MEMO" name="COMMENT" value="Questo componente unisce e trasforma i dati provenienti dalle due tabelle sorgenti.&#xD;&#xA;Permette di mappare colonne, creare nuove colonne calcolate e normalizzare i dati prima di inviarli al database di destinazione.&#xD;&#xA;Lo schema di output è compatibile con il tDBOutput. Qui c'è un lookup con la seconda tabella, in cui lookup model è Load Once, Match Model è unique match, Join Model è inner join, Store tem data è false. "/>
     <metadata connector="FLOW" label="out1map" name="out1map">
       <column comment="" defaultValue="" key="false" length="5" name="order_id" nullable="false" pattern="" precision="0" sourceType="INT2" type="id_Integer" originalLength="-1" usefulColumn="true"/>
       <column comment="" key="false" length="13" name="order_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" originalLength="-1" usefulColumn="true"/>
@@ -312,6 +318,7 @@
     </elementParameter>
     <elementParameter field="TEXT" name="LABEL" value="CUSTOMERS"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="MEMO" name="COMMENT" value="Questo componente legge la seconda tabella dal database PostgreSQL sorgente utilizzando la stessa connessione.&#xA;Tutte le colonne richieste vengono inviate al tMap per l’unione o la trasformazione dei dati.&#xA;Garantisce che i dati siano coerenti e pronti per il mapping."/>
     <metadata connector="FLOW" name="tDBInput_2">
       <column comment="" key="false" length="5" name="customer_id" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" originalLength="-1" usefulColumn="true"/>
       <column comment="" key="false" length="40" name="company_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" originalLength="-1" usefulColumn="true"/>
@@ -392,6 +399,7 @@
     <elementParameter field="TABLE" name="DUPLICATED_KEYS" show="false"/>
     <elementParameter field="CHECK" name="SUPPORT_NULL_WHERE" value="false" show="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="MEMO" name="COMMENT" value="Questo componente scrive i dati elaborati dal tMap nel database di destinazione utilizzando la connessione definita con Auto Commit attivo.&#xD;&#xA;Garantisce che tutti i dati vengano salvati correttamente senza necessità di commit manuale.&#xD;&#xA;Lo schema è coerente con le colonne generate dal tMap.&#xD;&#xA;Il nome della tabella è stato creato manualmente, action on table Create Table if does not exist e Action on data è insert."/>
     <metadata connector="FLOW" label="out1map" name="tDBOutput_1">
       <column comment="" defaultValue="" key="false" length="5" name="order_id" nullable="false" pattern="" precision="0" sourceType="INT" type="id_Integer" originalLength="-1" usefulColumn="true"/>
       <column comment="" key="false" length="13" name="order_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" originalLength="-1" usefulColumn="true"/>
@@ -433,6 +441,7 @@
     <elementParameter field="TEXT" name="PROPERTIES" value="&quot;&quot;"/>
     <elementParameter field="CHECK" name="AUTO_COMMIT" value="true"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="MEMO" name="COMMENT" value="Questo componente stabilisce la connessione al database PostgreSQL sorgente da cui verranno letti i dati.&#xA;Tutti i componenti tDBInput collegati useranno questa connessione per estrarre le tabelle.&#xA;La connessione è predefinita nel repository e già collegata al job."/>
   </node>
   <node componentName="tMysqlConnection" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="520" posY="80">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tDBConnection_2" show="false"/>
@@ -455,6 +464,7 @@
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
     <elementParameter field="CHECK" name="AUTO_COMMIT" value="true"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="MEMO" name="COMMENT" value="Questo componente stabilisce la connessione al database di destinazione dove verranno scritti i dati elaborati.&#xA;Tutti i componenti tDBOutput collegati useranno questa connessione.&#xA;La flag Auto Commit è attiva, garantendo che tutte le modifiche vengano salvate automaticamente.&#xA;La connessione è predefinita nel repository e già collegata al job."/>
   </node>
   <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tPrejob_1" offsetLabelX="0" offsetLabelY="0" source="tPrejob_1" target="tDBConnection_1">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk1" show="false"/>

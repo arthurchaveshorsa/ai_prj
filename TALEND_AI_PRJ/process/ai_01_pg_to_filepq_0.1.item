@@ -102,19 +102,10 @@
   <node componentName="tPrejob" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="80" posY="80">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPrejob_1" show="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="MEMO" name="COMMENT" value="Questo componente viene eseguito prima dell'inizio del flusso principale Viene stabilita la connessione al database PostgreSQL di origine tramite il componente tDBConnection.&#xA;La connessione utilizza la configurazione predefinita presente nel repository.&#xA;Serve anche per verificare che la connessione sia attiva e pronta per l'estrazione dei dati."/>
   </node>
   <node componentName="tPostgresqlConnection" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="280" posY="80">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tDBConnection_1" show="false"/>
-    <elementParameter field="TEXT" name="COMPONENT_NAME" value="tPostgresqlConnection" show="false"/>
-    <elementParameter field="TEXT" name="VERSION" value="0.102 (ALPHA)" show="false"/>
-    <elementParameter field="TEXT" name="FAMILY" value="Databases/DB Specifics/PostgreSQL|ELT/Connections" show="false"/>
-    <elementParameter field="CHECK" name="START" value="false" show="false"/>
-    <elementParameter field="CHECK" name="STARTABLE" value="true" show="false"/>
-    <elementParameter field="CHECK" name="SUBTREE_START" value="true" show="false"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="true" show="false"/>
-    <elementParameter field="TEXT" name="HELP" value="org.talend.help.tPostgresqlConnection" show="false"/>
-    <elementParameter field="DIRECTORY" name="IREPORT_PATH" value="" show="false"/>
-    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="C:\Talend_2025\Talend-Studio-20250226_1030-V8.0.1\configuration\lib\java" show="false"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_VGrukAHSEfGnu-clOICnTg" show="false"/>
     <elementParameter field="CLOSED_LIST" name="DB_VERSION" value="V9_X"/>
@@ -133,20 +124,12 @@
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
     <elementParameter field="TEXT" name="PROPERTIES" value="&quot;&quot;"/>
-    <elementParameter field="CHECK" name="AUTO_COMMIT" value="false"/>
+    <elementParameter field="CHECK" name="AUTO_COMMIT" value="true"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="MEMO" name="COMMENT" value="Questo componente stabilisce la connessione al database PostgreSQL di origine.&#xA;Tutti i componenti tDBInput collegati useranno questa connessione per estrarre i dati.&#xA;La connessione è predefinita nel repository e già collegata al job."/>
   </node>
   <node componentName="tPostgresqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="200" posY="240">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tDBInput_1" show="false"/>
-    <elementParameter field="TEXT" name="COMPONENT_NAME" value="tPostgresqlInput" show="false"/>
-    <elementParameter field="TEXT" name="VERSION" value="0.102 (ALPHA)" show="false"/>
-    <elementParameter field="TEXT" name="FAMILY" value="Databases/DB Specifics/PostgreSQL" show="false"/>
-    <elementParameter field="CHECK" name="START" value="true" show="false"/>
-    <elementParameter field="CHECK" name="STARTABLE" value="true" show="false"/>
-    <elementParameter field="CHECK" name="SUBTREE_START" value="true" show="false"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="false" show="false"/>
-    <elementParameter field="TEXT" name="HELP" value="org.talend.help.tPostgresqlInput" show="false"/>
-    <elementParameter field="DIRECTORY" name="IREPORT_PATH" value="" show="false"/>
-    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="C:\Talend_2025\Talend-Studio-20250226_1030-V8.0.1\configuration\lib\java" show="false"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tDBConnection_1"/>
     <elementParameter field="CLOSED_LIST" name="DB_VERSION" value="V9_X" show="false"/>
@@ -185,6 +168,8 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="discount" id="8"/>
       <elementValue elementRef="TRIM" value="false" id="9"/>
     </elementParameter>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="MEMO" name="COMMENT" value="Questo componente legge i dati dal database PostgreSQL utilizzando la connessione stabilita dal tDBConnection.&#xA;Estrae tutte le colonne della tabella sorgente e le invia al flusso principale del job.&#xA;I dati vengono trasferiti in memoria per poterli successivamente scrivere nel file Parquet.&#xA;Questa operazione permette di creare un dataset consistente e pronto per l’analisi."/>
     <metadata connector="FLOW" name="tDBInput_1">
       <column comment="" defaultValue="" key="false" length="5" name="order_id" nullable="false" pattern="" precision="0" sourceType="INT2" type="id_Short" originalLength="-1" usefulColumn="true"/>
       <column comment="" defaultValue="" key="false" length="5" name="product_id" nullable="false" pattern="" precision="0" sourceType="INT2" type="id_Short" originalLength="-1" usefulColumn="true"/>
@@ -202,6 +187,7 @@
     <elementParameter field="TEXT" name="ROW_GROUP_SIZE" value="134217728"/>
     <elementParameter field="TEXT" name="PAGE_SIZE" value="1048576"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="MEMO" name="COMMENT" value="Questo componente scrive i dati estratti dal tDBInput in un file Parquet.&#xA;Il Parquet è un formato ottimizzato per analisi e archiviazione efficiente.&#xA;Lo schema del file Parquet corrisponde esattamente alle colonne della tabella sorgente del database.&#xA;Questo componente garantisce che tutti i dati vengano salvati correttamente per eventuali elaborazioni successive."/>
     <metadata connector="FLOW" name="tFileOutputParquet_1">
       <column comment="" defaultValue="" key="false" length="5" name="order_id" nullable="false" pattern="" precision="0" sourceType="INT2" type="id_Short" originalLength="-1" usefulColumn="true"/>
       <column comment="" defaultValue="" key="false" length="5" name="product_id" nullable="false" pattern="" precision="0" sourceType="INT2" type="id_Short" originalLength="-1" usefulColumn="true"/>
@@ -213,10 +199,13 @@
   <node componentName="tPostjob" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="120" posY="400">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostjob_1" show="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="MEMO" name="COMMENT" value="Questo componente viene eseguito dopo il completamento del flusso principale.&#xA;Serve per chiudere la connessione al database PostgreSQL utilizzata dal job tramite il componente tDBClose, rilasciando correttamente le risorse."/>
   </node>
   <node componentName="tPostgresqlClose" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="320" posY="400">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tDBClose_1" show="false"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tDBConnection_1"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="MEMO" name="COMMENT" value="Questo componente viene eseguito dopo il completamento del flusso principale.&#xA;Serve per chiudere la connessione al database PostgreSQL utilizzata dal job, rilasciando correttamente le risorse.&#xA;Garantisce che non rimangano connessioni aperte e previene eventuali blocchi sul database."/>
   </node>
   <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tPrejob_1" offsetLabelX="0" offsetLabelY="0" source="tPrejob_1" target="tDBConnection_1">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk1" show="false"/>
