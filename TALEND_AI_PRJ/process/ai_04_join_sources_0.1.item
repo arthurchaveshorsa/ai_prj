@@ -162,6 +162,7 @@
     <elementParameter field="CHECK" name="USE_HEADER_AS_IS" value="false"/>
     <elementParameter field="TEXT" name="SCHEMA_OPT_NUM" value="100" show="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="MEMO" name="COMMENT" value="Questo componente legge il primo file CSV sorgente.&#xD;&#xA;&#xD;&#xA;È configurato con:&#xD;&#xA;&#xD;&#xA;Separatore di campo coerente con il file, ;&#xD;&#xA;&#xD;&#xA;Text enclosure impostato correttamente&#xD;&#xA;&#xD;&#xA;Header impostato a 1 &#xD;&#xA;&#xD;&#xA;Schema definito manualmente e coerente con la struttura del file&#xD;&#xA;&#xD;&#xA;Il componente trasforma il file CSV in un flusso strutturato di record utilizzabile nei componenti successivi."/>
     <metadata connector="FLOW" name="tFileInputDelimited_1">
       <column comment="" key="false" length="-1" name="product_code" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="-1" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="product_name" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="-1" usefulColumn="true"/>
@@ -184,6 +185,7 @@
   <node componentName="tUnite" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="520" posY="160">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tUnite_1" show="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="MEMO" name="COMMENT" value="Questo componente unisce i due flussi in ingresso in un unico flusso di output.&#xA;&#xA;Funziona in modo simile a una UNION ALL in SQL:&#xA;&#xA;Non elimina duplicati&#xA;&#xA;Non applica trasformazioni&#xA;&#xA;Accoda semplicemente i record del secondo flusso al primo&#xA;&#xA;È richiesto che:&#xA;&#xA;Gli schemi dei due input siano identici&#xA;&#xA;I tipi di dato siano coerenti&#xA;&#xA;Il risultato è un unico dataset combinato pronto per essere scritto nel file finale."/>
     <metadata connector="FLOW" name="tUnite_1">
       <column comment="" key="false" length="-1" name="product_code" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="-1" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="product_name" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="-1" usefulColumn="true"/>
@@ -256,6 +258,7 @@
     <elementParameter field="CHECK" name="USE_HEADER_AS_IS" value="false"/>
     <elementParameter field="TEXT" name="SCHEMA_OPT_NUM" value="100" show="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="MEMO" name="COMMENT" value="Questo componente legge il secondo file CSV sorgente.&#xA;&#xA;La configurazione è coerente con il primo input:&#xA;&#xA;Stesso numero di colonne&#xA;&#xA;Stesso tipo di dati&#xA;&#xA;Stesso ordine delle colonne&#xA;&#xA;È fondamentale che lo schema sia identico a quello del primo tFileInputDelimited per garantire una corretta unione tramite tUnite."/>
     <metadata connector="FLOW" name="tFileInputDelimited_2">
       <column comment="" key="false" length="-1" name="product_code" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="-1" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="product_name" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="-1" usefulColumn="true"/>
@@ -284,6 +287,7 @@
     <elementParameter field="TEXT" name="ROW_GROUP_SIZE" value="134217728"/>
     <elementParameter field="TEXT" name="PAGE_SIZE" value="1048576"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="MEMO" name="COMMENT" value="Questo componente scrive il flusso unificato in un file in formato Parquet.&#xD;&#xA;&#xD;&#xA;La configurazione prevede:&#xD;&#xA;&#xD;&#xA;Percorso file definito manualmente&#xD;&#xA;&#xD;&#xA;Schema coerente con l’output del tUnite&#xD;&#xA;&#xD;&#xA;Modalità di scrittura overwrite&#xD;&#xA;&#xD;&#xA;Questo componente conclude la pipeline salvando i dati in .parquet, formato ideale per ambienti big data."/>
     <metadata connector="FLOW" name="tFileOutputParquet_1">
       <column comment="" key="false" length="-1" name="product_code" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="-1" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="product_name" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="-1" usefulColumn="true"/>
