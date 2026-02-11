@@ -102,7 +102,7 @@
   <node componentName="tPrejob" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="80" posY="80">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPrejob_1" show="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="MEMO" name="COMMENT" value="Questo componente viene eseguito prima dell'inizio del flusso principale Viene stabilita la connessione al database PostgreSQL di origine tramite il componente tDBConnection.&#xD;&#xA;La connessione utilizza la configurazione predefinita presente nel repository.&#xD;&#xA;Serve anche per verificare che la connessione sia attiva e pronta per l'estrazione dei dati."/>
+    <elementParameter field="MEMO" name="COMMENT" value="Questo componente viene eseguito prima dell'inizio del flusso principale Viene stabilita la connessione al database PostgreSQL di scrittura tramite il componente tDBConnection.&#xD;&#xA;La connessione utilizza la configurazione predefinita presente nel repository.&#xD;&#xA;Serve anche per verificare che la connessione sia attiva e pronta per l'estrazione dei dati."/>
   </node>
   <node componentName="tPostgresqlConnection" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="280" posY="80">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tDBConnection_1" show="false"/>
@@ -126,7 +126,7 @@
     <elementParameter field="TEXT" name="PROPERTIES" value="&quot;&quot;"/>
     <elementParameter field="CHECK" name="AUTO_COMMIT" value="true"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="MEMO" name="COMMENT" value="Questo componente stabilisce la connessione al database PostgreSQL di scrittura.&#xD;&#xA;Tutti i componenti tDBInput collegati useranno questa connessione per estrarre i dati, con la flag Auto Commit attiva.&#xD;&#xA;La connessione è predefinita nel repository e già collegata al job."/>
+    <elementParameter field="MEMO" name="COMMENT" value="Questo componente stabilisce la connessione al database PostgreSQL di scrittura.&#xD;&#xA;Tutti i componenti tDButput collegati useranno questa connessione per estrarre i dati, con la flag Auto Commit attiva.&#xD;&#xA;La connessione è predefinita nel repository e già collegata al job."/>
   </node>
   <node componentName="tPostjob" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="120" posY="400">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostjob_1" show="false"/>
@@ -281,7 +281,7 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="MEMO" name="COMMENT" value="Questo componente scrive i dati letti dal tFileInputJSON nel database di destinazione utilizzando la connessione configurata nel job.&#xD;&#xA;&#xD;&#xA;Lo schema è coerente con le colonne definite nel file JSON e mappate nel componente precedente.&#xD;&#xA;&#xD;&#xA;Il nome della tabella è stato creato manualmente.&#xD;&#xA;Action on table: drop table if does not exist and create.&#xD;&#xA;Action on data: Insert.&#xD;&#xA;&#xD;&#xA;Trattandosi di un database PostgreSQL, è stato necessario definire una Primary Key nello schema per garantire l’univocità dei record e rispettare le best practice di modellazione relazionale.&#xA;&#xA;Questo garantisce la creazione automatica della tabella in caso non esista e l’inserimento corretto dei dati secondo i vincoli definiti."/>
+    <elementParameter field="MEMO" name="COMMENT" value="Questo componente scrive i dati letti dal tFileInputJSON nel database di destinazione utilizzando la connessione configurata nel job.&#xD;&#xA;&#xD;&#xA;Lo schema è coerente con le colonne definite nel file JSON e mappate nel componente precedente.&#xD;&#xA;&#xD;&#xA;Il nome della tabella è stato creato manualmente.&#xD;&#xA;Action on table: drop table if exists and create.&#xD;&#xA;Action on data: Insert.&#xD;&#xA;&#xD;&#xA;Trattandosi di un database PostgreSQL, è stato necessario definire una Primary Key nello schema per garantire l’univocità dei record e rispettare le best practice di modellazione relazionale.&#xA;&#xA;Questo garantisce la creazione automatica della tabella in caso non esista e l’inserimento corretto dei dati secondo i vincoli definiti."/>
     <metadata connector="FLOW" name="tDBOutput_1">
       <column comment="" key="true" length="-1" name="id" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="-1" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="name" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="-1" usefulColumn="true"/>

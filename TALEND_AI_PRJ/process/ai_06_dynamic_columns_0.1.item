@@ -102,10 +102,12 @@
   <node componentName="tPrejob" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="120" posY="40">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPrejob_1" show="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="MEMO" name="COMMENT" value="Questo componente viene eseguito prima dell'inizio del flusso principale Viene stabilita la connessione al database MySQL di scrittura tramite il componente tDBConnection.&#xD;&#xA;La connessione utilizza la configurazione predefinita presente nel repository.&#xD;&#xA;Serve anche per verificare che la connessione sia attiva e pronta per l'estrazione dei dati."/>
   </node>
   <node componentName="tPostjob" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="120" posY="360">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostjob_1" show="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="MEMO" name="COMMENT" value="Questo componente viene eseguito dopo il completamento del flusso principale.&#xD;&#xA;Serve per chiudere la connessione al database PostgreSQL utilizzata dal job tramite il componente tDBClose, rilasciando correttamente le risorse."/>
   </node>
   <node componentName="tFileInputDelimited" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="120" posY="200">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFileInputDelimited_1" show="false"/>
@@ -150,6 +152,7 @@
     <elementParameter field="CHECK" name="USE_HEADER_AS_IS" value="false"/>
     <elementParameter field="TEXT" name="SCHEMA_OPT_NUM" value="100" show="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="MEMO" name="COMMENT" value="Questo componente legge il file CSV di test utilizzato per verificare il comportamento delle Dynamic Columns.&#xD;&#xA;&#xD;&#xA;Configurazione principale:&#xD;&#xA;&#xD;&#xA;Header = 1, poiché il file contiene una riga di intestazione con i nomi delle colonne.&#xD;&#xA;&#xD;&#xA;Separatore di campo configurato correttamente .&#xD;&#xA;&#xD;&#xA;Presenza di una colonna di tipo Dynamic nello schema.&#xD;&#xA;&#xD;&#xA;Per garantire una lettura corretta dei dati, il file CSV deve avere un Text Enclosure coerente.&#xD;&#xA;&#xD;&#xA;In questo caso:&#xD;&#xA;&#xD;&#xA;I dati nel file erano racchiusi tra virgolette (&quot;).&#xD;&#xA;&#xD;&#xA;Il parametro Text Enclosure nel componente è stato configurato con lo stesso simbolo (&quot;).&#xD;&#xA;&#xD;&#xA;Questa configurazione è fondamentale per evitare problemi di parsing, come:&#xD;&#xA;&#xD;&#xA;Campi letti in modo errato&#xD;&#xA;&#xD;&#xA;Virgolette residue nei dati&#xD;&#xA;&#xD;&#xA;Errori durante la scrittura nel database&#xD;&#xA;&#xD;&#xA;La corretta configurazione del Text Enclosure permette a Talend di interpretare perfettamente ogni campo, specialmente quando si utilizzano Dynamic Columns."/>
     <metadata connector="FLOW" name="tFileInputDelimited_1">
       <column comment="" key="false" length="-1" name="newColumn" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="-1" sourceType="" type="id_Dynamic" originalLength="-1" usefulColumn="true"/>
     </metadata>
@@ -173,11 +176,12 @@
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
     <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="true"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="MEMO" name="COMMENT" value="Il tMap viene utilizzato per:&#xD;&#xA;&#xD;&#xA;Eventualmente manipolare i dati prima della scrittura&#xD;&#xA;&#xD;&#xA;Verificare la corretta propagazione delle colonne dinamiche verso l’output&#xD;&#xA;&#xD;&#xA;In questo test il tMap serve principalmente a validare la gestione tecnica delle Dynamic Columns."/>
     <metadata connector="FLOW" name="out1">
       <column comment="" key="false" length="-1" name="newColumn" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="-1" sourceType="" type="id_Dynamic" originalLength="-1" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="TalendMapper:MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="out1">
         <mapperTableEntries name="newColumn" expression="row3.newColumn " type="id_Dynamic" nullable="true"/>
@@ -228,6 +232,7 @@
     <elementParameter field="TABLE" name="DUPLICATED_KEYS" show="false"/>
     <elementParameter field="CHECK" name="SUPPORT_NULL_WHERE" value="false" show="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="MEMO" name="COMMENT" value="Questo componente scrive i dati nel database MySQL utilizzando la connessione esistente.&#xD;&#xA;&#xD;&#xA;Configurazione rilevante:&#xD;&#xA;&#xD;&#xA;Use existing connection&#xD;&#xA;&#xD;&#xA;Action on table: drop table if exists and create&#xD;&#xA;&#xD;&#xA;Action on data: Insert&#xD;&#xA;&#xD;&#xA;Questo componente consente di verificare se le colonne dinamiche vengono correttamente mappate e scritte nel database."/>
     <metadata connector="FLOW" name="tDBOutput_2">
       <column comment="" key="false" length="-1" name="newColumn" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="-1" sourceType="VARCHAR" type="id_Dynamic" originalLength="-1" usefulColumn="true"/>
     </metadata>
@@ -258,11 +263,13 @@
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
     <elementParameter field="CHECK" name="AUTO_COMMIT" value="true"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="MEMO" name="COMMENT" value="Questo componente stabilisce la connessione al database MySQL di scrittura.&#xD;&#xA;Tutti i componenti tDBoutput collegati useranno questa connessione per estrarre i dati, con la flag Auto Commit attiva.&#xD;&#xA;La connessione è predefinita nel repository e già collegata al job."/>
   </node>
   <node componentName="tMysqlClose" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="280" posY="360">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tDBClose_2" show="false"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tDBConnection_2"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="MEMO" name="COMMENT" value="Questo componente viene eseguito dopo il completamento del flusso principale.&#xD;&#xA;Serve per chiudere la connessione al database MySQL utilizzata dal job, rilasciando correttamente le risorse.&#xD;&#xA;Garantisce che non rimangano connessioni aperte e previene eventuali blocchi sul database."/>
   </node>
   <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tPrejob_1" offsetLabelX="0" offsetLabelY="0" source="tPrejob_1" target="tDBConnection_2">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk1" show="false"/>
