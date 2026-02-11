@@ -120,6 +120,7 @@
     <elementParameter field="TEXT" name="EXCLUDEFILEMASK" value="&quot;*.txt&quot;" show="false"/>
     <elementParameter field="CHECK" name="FORMAT_FILEPATH_TO_SLASH" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="MEMO" name="COMMENT" value="Questo componente monitora una cartella specifica alla ricerca di file che rispettano il filemask configurato (table_file_test.json).&#xD;&#xA;&#xD;&#xA;Il componente genera un flusso per ogni file trovato nella directory.&#xD;&#xA;&#xD;&#xA;Se almeno un file viene individuato, il job prosegue con l’elaborazione del subjob successivo.&#xD;&#xA;&#xD;&#xA;l’opzione “Generate error if no file found” è attiva, quindi se nessun file viene trovato, il componente genera un errore controllato che attiva il flusso di gestione errore configurato nel job."/>
   </node>
   <node componentName="tRunJob" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="560" posY="160">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tRunJob_1" show="false"/>
@@ -147,6 +148,7 @@
     <elementParameter field="CHECK" name="LOAD_CONTEXT_FROM_FILE" value="false" show="false"/>
     <elementParameter field="CHECK" name="USE_BASE64" value="true"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="MEMO" name="COMMENT" value="In caso di esecuzione corretta del subjob precedente (file trovato), viene attivato un collegamento OnSubjob Ok verso un componente tRunJob.&#xA;&#xA;Questo componente richiama il job ai_03_json_to_db, responsabile della lettura del file JSON e del caricamento dei dati nel database PostgreSQL.&#xA;&#xA;In questo modo si realizza una logica modulare, separando il controllo della presenza del file dalla logica di trasformazione e caricamento dati."/>
     <metadata connector="FLOW" name="tRunJob_1"/>
   </node>
   <node componentName="tFixedFlowInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="560" posY="320">
@@ -164,6 +166,7 @@
     <elementParameter field="TEXT" name="FIELDSEPARATOR" value="&quot;;&quot;" show="false"/>
     <elementParameter field="MEMO" name="INLINECONTENT" value="" show="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="MEMO" name="COMMENT" value="Questo componente viene attivato tramite collegamento OnSubjob Error quando il subjob principale genera un errore.&#xD;&#xA;&#xD;&#xA;Il tFixedFlowInput crea un record statico contenente un messaggio di errore personalizzato, definito manualmente nello schema del componente.&#xD;&#xA;&#xD;&#xA;In questa pipeline viene utilizzato per:&#xD;&#xA;&#xD;&#xA;Generare un messaggio chiaro e descrittivo dell’errore&#xD;&#xA;&#xD;&#xA;Standardizzare la gestione degli errori&#xD;&#xA;&#xD;&#xA;Evitare messaggi tecnici poco leggibili nei log&#xD;&#xA;&#xD;&#xA;Lo schema contiene un campo valorizzato con un testo esplicativo."/>
     <metadata connector="FLOW" name="tFixedFlowInput_1">
       <column comment="" key="false" length="-1" name="message" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="-1" usefulColumn="true"/>
     </metadata>
@@ -188,6 +191,7 @@
     <elementParameter field="CHECK" name="PRINT_CONTENT_WITH_LOG4J" value="true"/>
     <elementParameter field="TEXT" name="SCHEMA_OPT_NUM" value="100" show="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="MEMO" name="COMMENT" value="Questo componente riceve il flusso dal tFixedFlowInput e stampa il messaggio di errore nei log di esecuzione del job.&#xD;&#xA;&#xD;&#xA;Permette di:&#xD;&#xA;&#xD;&#xA;Visualizzare un messaggio chiaro e comprensibile&#xD;&#xA;&#xD;&#xA;Monitorare eventuali anomalie durante l’esecuzione&#xD;&#xA;&#xD;&#xA;Facilitare attività di debugging e controllo&#xD;&#xA;"/>
     <metadata connector="FLOW" name="tLogRow_2">
       <column comment="" key="false" length="-1" name="message" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="-1" usefulColumn="true"/>
     </metadata>
